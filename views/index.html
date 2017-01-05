@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Watson Speech to Text client example - custom model</title>
+</head>
+<body>
+
+<section>
+    <h2>Find your emotions</h2>
+    <p style="display:none;">Model: <select id="model"></select> <small><i>Choose the model to be used for the speech recognition.</i></small></p>
+    <button id="button">Start Recording</button>
+    <button id="stop">Stop</button>
+
+    <h2>Speech Output:</h2>
+    <div id="output">--</div>
+
+    <h2>Alchemy Output:</h2>
+    <div id="alchemy-output">--</div>
+</section>
+
+<script src="javascripts/watson-speech.min.js"></script>
+<script src="javascripts/services.js"></script>
+<!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
+<script src="javascripts/fetch.js"></script>
+</body>
+</html>
