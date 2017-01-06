@@ -6,9 +6,6 @@ var config  = require('../config')
 var alchemy = new Alchemy({
     api_key: config.ALCHEMY_APIKEY
 });
-var alchemy_params = {
-    text: 'transcript'
-};
    
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -16,10 +13,17 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/api/alchemy', function(req, res, next) {
-    console.log(req.body);
-    alchemy.sentiment({
-        text: req.body.data
-    }, function(err, response) {
+    //console.log(req.body);
+
+    var alchemy_params = {
+        extract: 'doc-sentiment,doc-emotion',
+        text: req.body.data,
+        language: 'english'
+    };
+    
+    console.log(alchemy_params);
+    
+    alchemy.combined(alchemy_params, function(err, response) {
         if (err) {
             console.log(err);
         }

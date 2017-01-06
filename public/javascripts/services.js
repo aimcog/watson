@@ -35,17 +35,24 @@ document.querySelector('#button').onclick = function () {
 
         stream.on('data', function(data) {
             var output = document.querySelector('#output').innerHTML;
-            var alchemy = document.querySelector('#alchemy-output');
-            alchemy.innerHTML = "";
+            var sentiment = document.querySelector('#sentiment-output');
+            var emotion = document.querySelector('#emotion-output');
+            
+            sentiment.innerHTML = "";
+            emotion.innerHTML = "";
             var alchemy_data = {data: output};
             if (output) {
                 jQuery.post('/api/alchemy', alchemy_data)
                     .done(function(data) {
-                        alchemy.innerHTML = JSON.stringify(data.docSentiment, null, 2);
-                        console.log(data.docSentiment); 
+                        var data_sentiment = data.docSentiment.type;
+                        sentiment.innerHTML = data_sentiment;
+                        var data_emotions = "";
+                        for (var key in data.docEmotions) {
+                            data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
+                            emotion.innerHTML = data_emotions;
+                        }
+                        console.log(data); 
                     });
-                           
-
             }
         });
         
