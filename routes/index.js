@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var Alchemy = require('watson-developer-cloud/alchemy-language/v1');
+var config  = require('../config')
 
 var alchemy = new Alchemy({
-    api_key: process.env.ALCHEMY_APIKEY || '<alchemy_apikey>',
+    api_key: config.ALCHEMY_APIKEY
 });
 var alchemy_params = {
     text: 'transcript'
