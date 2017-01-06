@@ -15,13 +15,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/api/alchemy', function(req, res, next) {
-    console.log(req);
-    alchemy.sentiment(alchemy_params, function(err, response) {
+    console.log(req.body);
+    alchemy.sentiment({
+        text: req.body.data
+    }, function(err, response) {
         if (err) {
             console.log(err);
         }
         else {
-            console.log(response);
+            //console.log(response);
             res.send(response);
         }
     });

@@ -37,22 +37,14 @@ document.querySelector('#button').onclick = function () {
             var output = document.querySelector('#output').innerHTML;
             var alchemy = document.querySelector('#alchemy-output');
             alchemy.innerHTML = "";
+            var alchemy_data = {data: output};
             if (output) {
-                var header = new Headers();
-                header.append('Content-Type', 'text/plain');
-                //console.log(output);
-                fetch('/api/alchemy', {
-                    headers: header,
-                    method: 'post',
-                    body: output
-                }).then(function(response) {
-                    return response.json();
-                }).then(function(response) {
-                    if (response.status === 'OK') {
-                        alchemy.innerHTML = response.docSentiment.type;
-                    }
-                    console.log(response);
-                });
+                jQuery.post('/api/alchemy', alchemy_data)
+                    .done(function(data) {
+                        alchemy.innerHTML = JSON.stringify(data.docSentiment, null, 2);
+                        console.log(data.docSentiment); 
+                    });
+                           
 
             }
         });
