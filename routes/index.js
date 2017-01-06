@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/api/alchemy', function(req, res, next) {
-    console.log(req.body.data);
+    console.log(req);
     alchemy.sentiment(alchemy_params, function(err, response) {
         if (err) {
             console.log(err);

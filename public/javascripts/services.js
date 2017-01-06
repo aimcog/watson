@@ -38,10 +38,13 @@ document.querySelector('#button').onclick = function () {
             var alchemy = document.querySelector('#alchemy-output');
             alchemy.innerHTML = "";
             if (output) {
+                var header = new Headers();
+                header.append('Content-Type', 'text/plain');
                 //console.log(output);
                 fetch('/api/alchemy', {
+                    headers: header,
                     method: 'post',
-                    body: JSON.stringify(output)
+                    body: output
                 }).then(function(response) {
                     return response.json();
                 }).then(function(response) {
