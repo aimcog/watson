@@ -43,49 +43,47 @@ document.querySelector('#button').onclick = function () {
             var emotion = document.querySelector('#emotion-output');
             var imageHolder = document.querySelector('#image-placeholder');
             
-            var keywords = [
-                { relevance: '0.975019', text: 'rosemary' },
-                { relevance: '0.815888', text: 'topas' },
-                { relevance: '0.721656', text: 'granat' }
-            ];
-
-            for(var i = 0; i < keywords.length; i++) {
-                var keyword = keywords[i];
-                
-                jQuery.get('/api/keywords/' + keyword.text)
-                    .done(function(linkObj) {
-                        console.log(linkObj);
-                        // Image not found in the memory ds, add it to the
-                        // page
-                        if (keywordsReceived.indexOf(linkObj.keyword) == -1) {
-                            keywordsReceived.push(linkObj.keyword);
-                            var img = document.createElement('img');
-                            console.log(linkObj.link);
-                            img.setAttribute('src', linkObj.link);
-                            imageHolder.appendChild(img);
-                        }
-                    });
-            }
             
             sentiment.innerHTML = "";
             emotion.innerHTML = "";
             var alchemy_data = {data: output};
             if (output) {
                 
-                // jQuery.post('/api/alchemy', alchemy_data)
-                //     .done(function(data) {
-                //         var data_sentiment = data.docSentiment.type;
-                //         //var keywords = data.keywords;
+                jQuery.post('/api/alchemy', alchemy_data)
+                    .done(function(data) {
+                        console.log(data);
+                        var data_sentiment = data.docSentiment.type;
+                        var keywords = data.keywords;
+                        
+                        for(var i = 0; i < keywords.length; i++) {
+                            var keyword = keywords[i];
+                            
+                            jQuery.get('/api/keywords/' + keyword.text)
+                                .done(function(linkObj) {
+                                    console.log(linkObj);
+                                    // Image not found in the memory ds, add it to the
+                                    // page
+                                    if (linkObj.link &&
+                                        keywordsReceived.indexOf(linkObj.keyword) == -1) {
+
+                                        keywordsReceived.push(linkObj.keyword);
+                                        var img = document.createElement('img');
+                                        console.log(linkObj.link);
+                                        img.setAttribute('src', linkObj.link);
+                                        imageHolder.appendChild(img);
+                                    }
+                                });
+                        }
 
                         
-                //         sentiment.innerHTML = data_sentiment;
-                //         var data_emotions = "";
-                //         for (var key in data.docEmotions) {
-                //             data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
-                //             emotion.innerHTML = data_emotions;
-                //         }
-                //         console.log(data); 
-                //     });
+                        sentiment.innerHTML = data_sentiment;
+                        var data_emotions = "";
+                        for (var key in data.docEmotions) {
+                            data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
+                            emotion.innerHTML = data_emotions;
+                        }
+                        console.log(data); 
+                    });
             }
         });
         
