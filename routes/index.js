@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Alchemy = require('watson-developer-cloud/alchemy-language/v1');
-var config  = require('../config')
+var config  = require('../config');
+var keywordMap = require('../keyword-map');
 
 var alchemy = new Alchemy({
     api_key: config.ALCHEMY_APIKEY
@@ -9,14 +10,21 @@ var alchemy = new Alchemy({
    
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+    res.render('index');
+});
+
+router.get('/api/keywords/:keyword', function(req, res, next) {
+    console.log("Keywords: ", req.params);
+    var imageLink = keywordMap.getImageLink(req.params.keyword);
+    console.log("Imagelink: ", imageLink);
+    res.send({ keyword: req.params.keyword, link: imageLink });
 });
 
 router.post('/api/alchemy', function(req, res, next) {
     //console.log(req.body);
 
     var alchemy_params = {
-        extract: 'doc-sentiment,doc-emotion',
+        extract: 'keywords,doc-sentiment,doc-emotion',
         text: req.body.data,
         language: 'english'
     };
@@ -28,10 +36,12 @@ router.post('/api/alchemy', function(req, res, next) {
             console.log(err);
         }
         else {
-            //console.log(response);
+            console.log(response);
             res.send(response);
         }
     });
 });
+
+
 
 module.exports = router;
