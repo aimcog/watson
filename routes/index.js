@@ -15,9 +15,9 @@ router.get('/', function(req, res, next) {
 
 router.get('/api/keywords/:keyword', function(req, res, next) {
     console.log("Keywords: ", req.params);
-    var imageLink = keywordMap.getImageLink(req.params.keyword);
-    console.log("Imagelink: ", imageLink);
-    res.send({ keyword: req.params.keyword, link: imageLink });
+    var imageInfo = keywordMap.getKeywordAndImageLink(req.params.keyword);
+    console.log("Imagelink: ", imageInfo);
+    res.send(imageInfo);
 });
 
 router.post('/api/alchemy', function(req, res, next) {

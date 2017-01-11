@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>Web Speech API Demo</title>
+<link rel="stylesheet" href="stylesheets/style.css">
+<script src="http://code.jquery.com/jquery-2.2.4.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="stylesheets/style.css">
+</head>
+
+<body>
+
+  <h1 class="center" id="headline">
+ 
+    Web Speech API</a> Speech To Test</h1>
+<div id="info">
+  <p id="info_start">Click on the click here and begin speaking.</p>
+  <p id="info_speak_now">Speak now.</p>
+  <p id="info_no_speech">No speech was detected. You may need to adjust your
+    <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+      microphone settings</a>.</p>
+  <p id="info_no_microphone" style="display:none">
+    No microphone was found. Ensure that a microphone is installed and that
+    <a href="//support.google.com/chrome/bin/answer.py?hl=en&amp;answer=1407892">
+    microphone settings</a> are configured correctly.</p>
+  <p id="info_allow">Click the "Allow" button above to enable your microphone.</p>
+  <p id="info_denied">Permission to use microphone was denied.</p>
+  <p id="info_blocked">Permission to use microphone is blocked. To change,
+    go to chrome://settings/contentExceptions#media-stream</p>
+  <p id="info_upgrade">Web Speech API is not supported by this browser.
+     Upgrade to <a href="//www.google.com/chrome">Chrome</a>
+     version 25 or later.</p>
+</div>
+<div class="right">
+  <button id="start_button" onclick="startButton(event)" style="display: inline-block;">
+    Click Here
+    <img alt="Start" id="start_img" class="img-responsive" src="images/mic.gif">
+  </button>
+
+
+</div>
+<div id="results">
+  <span id="final_span" class="final"></span>
+  <span id="interim_span" class="interim"></span>
+  <p>
+</div>
+<div class="center" style="display: none;">
+  <div class="sidebyside" style="text-align:right">
+    
+    <div id="copy_info" class="info">
+     
+    </div>
+  </div>
+  <div class="sidebyside">
+    <button id="email_button" class="button" onclick="">
+     </button>
+    <div id="email_info" class="info">
+     
+    </div>
+  </div>
+  <p>
+  <div id="div_language">
+  <input type="hidden" id="select_language"> 
+  <input type="hidden" id="select_dialect"> 
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="container-fluid col-xs-6 col-xs-offset-3">
+
+      <div class="col-xs-6">
+        <h3>Sentiment:</h3>
+        <div id="sentiment-output">--</div>
+      </div>
+
+      <div class="col-xs-6">
+        <h3>Emotion:</h3>
+        <div id="emotion-output">--</div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<section class="container-fluid">
+            <h3>Products: </h3>
+            <div id="image-placeholder" class="col-xs-3 col-xs-offset-3">
+            </div>
+</section>
+
+<script src="javascripts/watson-speech.min.js"></script>
+<!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
+<script src="javascripts/fetch.js"></script>
+<script src="javascripts/stt-service.js"></script>
+
+</body>
+</html>

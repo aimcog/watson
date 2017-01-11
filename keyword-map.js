@@ -9,14 +9,16 @@ var mappings = {
     'baseball': 'images/baseball.jpg'
 }
 
-function getImageLink (word) {
+function getKeywordAndImageLink (word) {
     console.log("Keyword-map", word);
     if (word) {
         var key = word.trim().toLowerCase();
-
+        console.log("Keyword-key", key);
+        
         for(var i = 0; i < keywords.length; i++) {
-            if (keywords[i] === key || key.search(keywords[i]) >= 0)
-                return mappings[keywords[i]];
+            var keyword = keywords[i];
+            if (keyword === key || key.search(keyword) >= 0)
+                return keyword + "," + mappings[keyword];
         }
 
         return "";
@@ -24,5 +26,5 @@ function getImageLink (word) {
 }
 
 module.exports = {
-    getImageLink : getImageLink
+    getKeywordAndImageLink : getKeywordAndImageLink
 }

@@ -23,7 +23,7 @@ getTtsToken()
             }
             dropdown.appendChild(o);
         });
-nn    }).catch(console.error.bind(console));
+    }).catch(console.error.bind(console));
 // recognize the text using the chosen model
 
 document.querySelector('#button').onclick = function () {
@@ -38,7 +38,7 @@ document.querySelector('#button').onclick = function () {
         });
 
         stream.on('data', function(data) {
-            var output = document.querySelector('#final_span').innerHTML;
+            var output = document.querySelector('#output').innerHTML;
             var sentiment = document.querySelector('#sentiment-output');
             var emotion = document.querySelector('#emotion-output');
             var imageHolder = document.querySelector('#image-placeholder');
@@ -70,7 +70,6 @@ document.querySelector('#button').onclick = function () {
                                         var img = document.createElement('img');
                                         console.log(linkObj.link);
                                         img.setAttribute('src', linkObj.link);
-                                        img.classList.add("product");
                                         imageHolder.appendChild(img);
                                     }
                                 });
