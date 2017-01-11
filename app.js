@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/google', google);
+//app.use('/google', google);
 app.use('/api/speech-to-text/', require('./stt-token.js'));
 
 // catch 404 and forward to error handler

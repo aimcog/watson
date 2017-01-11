@@ -1,5 +1,5 @@
 module.exports = {
-    STT_USERNAME: '3e741d93-e643-4789-b764-53a1c8224514',
-    STT_PASSWORD: 'hpxV2tfN5yD4',
-    ALCHEMY_APIKEY: 'd4546b94f34a2a1d55d0f95e270b3dbdbb58f499'
+    STT_USERNAME: 'username',
+    STT_PASSWORD: 'password',
+    ALCHEMY_APIKEY: 'alchemy-key'
 }

@@ -10,7 +10,7 @@ var alchemy = new Alchemy({
    
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('index');
+    res.render('google');
 });
 
 router.get('/api/keywords/:keyword', function(req, res, next) {
