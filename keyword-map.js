@@ -6,7 +6,7 @@ var mappings = {
     'rosemary': 'images/rosemary.jpg',
     'granat'  : 'images/granat.jpg',
     'topas'   : 'images/topas.jpg',
-    'baseball': 'images/topas.jpg'
+    'baseball': 'images/baseball.jpg'
 }
 
 function getImageLink (word) {
