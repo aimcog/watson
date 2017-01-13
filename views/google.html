@@ -68,34 +68,45 @@
   </div>
 </div>
 
+<button id="analysis_button" type="button" onclick="toggle_analysis()">Show Conversation Analysis</button>
 <div class="container-fluid">
-  <div class="row">
-    <div class="container-fluid col-xs-6 col-xs-offset-3">
+    <div id="conversation-analysis" class="row hidden">
+        <div class="container-fluid col-xs-8 col-xs-offset-2">
 
-      <div class="col-xs-6">
-        <h3>Sentiment:</h3>
-        <div id="sentiment-output">--</div>
-      </div>
+            <div class="col-xs-4">
+                <h3>Sentiment:</h3>
+                <div id="sentiment-output">--</div>
+            </div>
 
-      <div class="col-xs-6">
-        <h3>Emotion:</h3>
-        <div id="emotion-output">--</div>
-      </div>
-      
+            <div class="col-xs-4">
+                <h3>Emotion:</h3>
+                <div id="emotion-output">--</div>
+            </div>
+
+            <div class="col-xs-4">
+                <h3>Keywords:</h3>
+                <div id="keywords-output">--</div>
+            </div>
+
+            
+        </div>
     </div>
-  </div>
 </div>
 
+<button id="products_button" type="button" onclick="toggle_products()">Show Products</button>
+
 <section class="container-fluid">
-            <h3>Products: </h3>
-            <div id="image-placeholder" class="col-xs-3 col-xs-offset-3">
-            </div>
+    <div id="products-list" class="hidden">
+    <h3>Products: </h3>
+            <ul id="image-placeholder" class="list-inline">
+            </ul>
+    </div>
 </section>
 
 <script src="javascripts/watson-speech.min.js"></script>
 <!-- window.fetch pollyfill for IE/Edge & Older Chrome/FireFox -->
 <script src="javascripts/fetch.js"></script>
 <script src="javascripts/stt-service.js"></script>
-
+<script src="javascripts/app.js"></script>
 </body>
 </html>

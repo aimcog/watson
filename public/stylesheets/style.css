@@ -91,4 +91,12 @@ a:hover {
     border: 0;
     background-color:transparent;
     padding: 0;
-} 
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}

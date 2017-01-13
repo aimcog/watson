@@ -171,9 +171,12 @@ if (!('webkitSpeechRecognition' in window)) {
         var output = document.querySelector('#final_span').innerHTML;
         var sentiment = document.querySelector('#sentiment-output');
         var emotion = document.querySelector('#emotion-output');
-
+        var keywords = document.querySelector('#keywords-output');
+        
         sentiment.innerHTML = "";
         emotion.innerHTML = "";
+        keywords.innerHTML = "";
+        
         var alchemy_data = {data: output};
         if (output) {
             jQuery.post('/api/alchemy', alchemy_data)
@@ -187,8 +190,17 @@ if (!('webkitSpeechRecognition' in window)) {
                     var data_emotions = "";
                     for (var key in data.docEmotions) {
                         data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
-                        emotion.innerHTML = data_emotions;
                     }
+                    emotion.innerHTML = data_emotions;
+
+                    var data_keywords = "";
+                    for(var i = 0; i < data.keywords.length; i++) {
+                        var o = data.keywords[i];  // An object with 'text' and 'relevance'
+                        data_keywords += '<p>' + o.text + '</p>';
+                    }
+                    keywords.innerHTML = data_keywords;
+                    
+
                     console.log(data); 
                 });
         }
@@ -216,11 +228,13 @@ function get_keywords(keywords) {
                         keywordsReceived.indexOf(keyword) == -1) {
 
                         keywordsReceived.push(keyword);
+                        var li = document.createElement('li');
                         var img = document.createElement('img');
                         console.log(link);
                         img.setAttribute('src', link);
                         img.classList.add('product');
-                        imageHolder.appendChild(img);
+                        li.appendChild(img);
+                        imageHolder.appendChild(li);
                     }
                 }
             });
