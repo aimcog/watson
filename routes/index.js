@@ -24,7 +24,7 @@ router.post('/api/alchemy', function(req, res, next) {
     //console.log(req.body);
 
     var alchemy_params = {
-        extract: 'keywords,doc-sentiment,doc-emotion',
+        extract: 'entities,keywords,doc-sentiment,doc-emotion',
         text: req.body.data,
         language: 'english'
     };

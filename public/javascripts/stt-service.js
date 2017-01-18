@@ -84,6 +84,7 @@ function updateCountry() {
 // For showing the product images, we need to keep in memory which
 // keywords have already been encountered.
 var keywordsReceived = [];
+var citiesReceived = [];
 
 var create_email = false;
 var final_transcript = '';
@@ -172,10 +173,12 @@ if (!('webkitSpeechRecognition' in window)) {
         var sentiment = document.querySelector('#sentiment-output');
         var emotion = document.querySelector('#emotion-output');
         var keywords = document.querySelector('#keywords-output');
+        var cities = document.querySelector('#cities-output');
         
         sentiment.innerHTML = "";
         emotion.innerHTML = "";
         keywords.innerHTML = "";
+        cities.innerHTML = "";
         
         var alchemy_data = {data: output};
         if (output) {
@@ -196,17 +199,44 @@ if (!('webkitSpeechRecognition' in window)) {
                     var data_keywords = "";
                     for(var i = 0; i < data.keywords.length; i++) {
                         var o = data.keywords[i];  // An object with 'text' and 'relevance'
+                        // These should be `ul>li` but that will require css. 
                         data_keywords += '<p>' + o.text + '</p>';
                     }
                     keywords.innerHTML = data_keywords;
                     
+                    cities.innerHTML = "";
+                    populate_cities(data.entities);
 
+                    remove_duplicates_from_keywords(keywordsReceived, citiesReceived);
+                    
                     console.log(data); 
                 });
         }
 
         
     };
+}
+
+function remove_duplicates_from_keywords(keywords, cities) {
+
+    
+    
+}
+
+function populate_cities(entities) {
+    var cities_output = document.querySelector('#cities-output');
+    entities.map(function(entity) {
+        if (entity.type === 'City' ||
+            entity.type === 'StateOrCounty' ||
+            entity.type === 'Country') {
+            var city = document.createElement('p');
+            city.classList.add('city');
+            city.innerText = entity.text;
+            cities_output.appendChild(city);
+            citiesReceived.push(entity.text);
+        }
+    });
+
 }
 
 function get_keywords(keywords) {
