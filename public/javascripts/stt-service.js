@@ -155,6 +155,9 @@ if (!('webkitSpeechRecognition' in window)) {
 
     recognition.onresult = function(event) {
         var interim_transcript = '';
+        var re_braas = /(brass)/;
+        var re_monier = /(money)/;
+        
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
                 final_transcript += event.results[i][0].transcript;
@@ -162,6 +165,11 @@ if (!('webkitSpeechRecognition' in window)) {
                 interim_transcript += event.results[i][0].transcript;
             }
         }
+        // "lookup"
+        final_transcript = final_transcript
+            .replace(re_braas, 'braas')
+            .replace(re_monier, 'monier');
+        
         final_transcript = capitalize(final_transcript);
         final_span.innerHTML = linebreak(final_transcript);
         interim_span.innerHTML = linebreak(interim_transcript);
