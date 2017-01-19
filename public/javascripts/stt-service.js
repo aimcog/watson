@@ -85,6 +85,8 @@ function updateCountry() {
 // keywords have already been encountered.
 var keywordsReceived = [];
 var citiesReceived = [];
+var transcript_has_aerlox = false;
+var aerlox_enabled = false;
 
 var create_email = false;
 var final_transcript = '';
@@ -107,6 +109,8 @@ if (!('webkitSpeechRecognition' in window)) {
         document.getElementById('emotion-output').innerHTML = '';
         document.getElementById('image-placeholder').innerHTML = '';
         keywordsReceived = [];
+        transcript_has_aerlox = false;
+        remove_aerlox_video();
     };
 
     recognition.onerror = function(event) {
@@ -157,6 +161,7 @@ if (!('webkitSpeechRecognition' in window)) {
         var interim_transcript = '';
         var re_braas = /(brass)/;
         var re_monier = /(money)/;
+        var re_aerlox = /(hair locks)/;
         
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
@@ -168,8 +173,16 @@ if (!('webkitSpeechRecognition' in window)) {
         // "lookup"
         final_transcript = final_transcript
             .replace(re_braas, 'braas')
-            .replace(re_monier, 'monier');
+            .replace(re_monier, 'monier')
+            .replace(re_aerlox, 'Aerlox');
         
+        // There's this high chance that STT is not going to recognize
+        // Aerlox as a keyword, so need to check that in the final_transcript,
+        // and put up a frame for the video.
+        if (/Aerlox/.test(final_transcript) && !aerlox_enabled) {
+            show_aerlox_video();
+        }
+
         final_transcript = capitalize(final_transcript);
         final_span.innerHTML = linebreak(final_transcript);
         interim_span.innerHTML = linebreak(interim_transcript);
@@ -223,6 +236,30 @@ if (!('webkitSpeechRecognition' in window)) {
 
         
     };
+}
+
+function show_aerlox_video() {
+    if (!aerlox_enabled) {
+        aerlox_enabled = true;
+
+        var aerlox_container = document.querySelector('#aerlox-container');
+
+        var iframe = document.createElement('iframe');
+        iframe.id = 'aerlox-iframe';
+        iframe.height = 316;
+        iframe.width = 560;
+        iframe.src = "https://www.youtube.com/embed/xe8qWTbDkkQ?autoplay=1";
+        iframe.frameborder = 0;
+        aerlox_container.appendChild(iframe);
+    }
+}
+
+function remove_aerlox_video() {
+    aerlox_enabled = false;
+    var iframe = document.querySelector('#aerlox-iframe');
+    if (iframe) {
+        iframe.remove();
+    }
 }
 
 function remove_duplicates_from_keywords(keywords, cities) {
