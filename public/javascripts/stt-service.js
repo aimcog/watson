@@ -70,6 +70,78 @@ updateCountry();
 select_dialect.selectedIndex = 6;
 showInfo('info_start');
 
+function isCompetitor(keyword) {
+	var competitors = ['Koramic', 
+	                      'Wienerberger', 
+	                      'Lafarge Braas Roofing', 
+	                      'roeben'];
+	
+	if (null != keyword) {
+		for(var i = 0; i<competitors.length; i++) {
+			if (keyword.trim().toUpperCase() === competitors[i].toUpperCase()) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function isProduct(keyword) {
+	var products = ['Topas', 
+	                   'Rosemary', 
+	                   'Tegalit', 
+	                   'Double Roman',
+	                   'Frankfurter Pfanne',
+	                   'Mediterraneo',
+	                   'GRANAT',
+	                   'Roof outlets',
+	                   'Aerlox'];
+	
+	if (null != keyword) {
+		for(var i = 0; i<products.length; i++) {
+			if (keyword.trim().toUpperCase() === products[i].toUpperCase()) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function isAgency(keyword) {
+	var agencies = ['ABG Roofings', 
+	                   'Clauss', 
+	                   'Edward', 
+	                   'Comwrap',
+	                   'Neumann',
+	                   'BERNHARDT'];
+	
+	if (null != keyword) {
+		for(var i = 0; i<agencies.length; i++) {
+			if (keyword.trim().toUpperCase() === agencies[i].toUpperCase()) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+function isSpeciality(keyword) {
+	var specialities = ['Roofing', 
+	                       'Chimney', 
+	                       'Fittings', 
+	                       'Insulation'];
+	
+	if (null != keyword) {
+		for(var i = 0; i<specialities.length; i++) {
+			if (keyword.trim().toUpperCase() === specialities[i].toUpperCase()) {
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+
 function updateCountry() {
     for (var i = 2 - 1; i >= 0; i--) {
         // select_dialect.remove(i);
@@ -159,9 +231,15 @@ if (!('webkitSpeechRecognition' in window)) {
 
     recognition.onresult = function(event) {
         var interim_transcript = '';
-        var re_braas = /(brass)/;
-        var re_monier = /(money)/;
-        var re_aerlox = /(hair locks)/;
+
+        // TODO: Refactor into a collection and iterate over.
+        var re_braas = /(brass)/,
+            re_monier = /(money)/,
+            re_aerlox = /(hair locks)|(air rocks)|(unlocks)|(he locks)/,
+            re_koramic = /ceramic/,
+            re_miller = /millers/,
+            re_topas_tiles = /to pass time/,
+            re_topas = /(to pass)|(topaz)/;
         
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
@@ -174,7 +252,12 @@ if (!('webkitSpeechRecognition' in window)) {
         final_transcript = final_transcript
             .replace(re_braas, 'braas')
             .replace(re_monier, 'monier')
-            .replace(re_aerlox, 'Aerlox');
+            .replace(re_aerlox, 'Aerlox')
+            .replace(re_koramic, 'koramic')
+            .replace(re_miller, 'miller')
+            .replace(re_topas, 'topas')
+            .replace(re_topas_tiles, 'topaz tiles');
+        
         
         // There's this high chance that STT is not going to recognize
         // Aerlox as a keyword, so need to check that in the final_transcript,
@@ -190,16 +273,26 @@ if (!('webkitSpeechRecognition' in window)) {
             showButtons('inline-block');
         }
 
+        // TODO: Refactor a lot!
         var output = document.querySelector('#final_span').innerHTML;
         var sentiment = document.querySelector('#sentiment-output');
         var emotion = document.querySelector('#emotion-output');
         var keywords = document.querySelector('#keywords-output');
         var cities = document.querySelector('#cities-output');
+        var competitors = document.querySelector('#competitors-output'); 
+        var products = document.querySelector('#products-output'); 
+        var agencies = document.querySelector('#agencies-output');
+        var specialities = document.querySelector('#specialities-output');
         
         sentiment.innerHTML = "";
         emotion.innerHTML = "";
         keywords.innerHTML = "";
         cities.innerHTML = "";
+        competitors.innerHTML = "";
+        products.innerHTML = "";
+        agencies.innerHTML = "";
+        specialities.innerHTML = "";
+
         
         var alchemy_data = {data: output};
         if (output) {
@@ -218,11 +311,33 @@ if (!('webkitSpeechRecognition' in window)) {
                     emotion.innerHTML = data_emotions;
 
                     var data_keywords = "";
-                    for(var i = 0; i < data.keywords.length; i++) {
-                        var o = data.keywords[i];  // An object with 'text' and 'relevance'
-                        // These should be `ul>li` but that will require css. 
-                        data_keywords += '<p>' + o.text + '</p>';
-                    }
+                    var data_competitors = "";
+                    var data_products = "";
+                    var data_agencies = "";
+                    var data_specialities = "";
+
+                     for(var i = 0; i < data.keywords.length; i++) {
+                         var o = data.keywords[i];  // An obj with 'text' and'relevance'
+                         // These should be `ul>li` but that will require css. 
+                         if (isCompetitor(o.text)) {
+                             data_competitors += '<p>' + o.text + '</p>';
+                         } else if (isProduct(o.text)) {
+                             data_products += '<p>' + o.text + '</p>';
+                         } else if (isAgency(o.text)) {
+                             data_agencies += '<p>' + o.text + '</p>';
+                         } else if (isSpeciality(o.text)) {
+                             data_specialities += '<p>' + o.text + '</p>';
+                         } else {
+                             data_keywords += '<p>' + o.text + '</p>';
+                         }
+                     }
+                        keywords.innerHTML = data_keywords;
+                        competitors.innerHTML = data_competitors;
+                        products.innerHTML = data_products;
+                        agencies.innerHTML = data_agencies;
+                        specialities.innerHTML = data_specialities;
+
+                    
                     keywords.innerHTML = data_keywords;
                     
                     cities.innerHTML = "";
