@@ -70,75 +70,75 @@ updateCountry();
 select_dialect.selectedIndex = 6;
 showInfo('info_start');
 
-function isCompetitor(keyword) {
-	var competitors = ['Koramic', 
-	                      'Wienerberger', 
-	                      'Lafarge Braas Roofing', 
-	                      'roeben'];
+function getCompetitor(entities) {
+    var data_competitors = "";
+    var arrCompetitors = ['Koramic', 
+	                  'Wienerberger', 
+	                  'Lafarge Braas Roofing', 
+	                  'roeben'];
 	
-	if (null != keyword) {
-		for(var i = 0; i<competitors.length; i++) {
-			if (keyword.trim().toUpperCase() === competitors[i].toUpperCase()) {
-				return true;
-			}
-		}
-	}
-	return false;
+    for(var i = 0; i<arrCompetitors.length; i++) {
+    	if (entities.toUpperCase().includes(arrCompetitors[i].toUpperCase())) {
+    		data_competitors += '<p>' + arrCompetitors[i] + '</p>';
+    	}
+    }
+	
+    return data_competitors;
 }
 
-function isProduct(keyword) {
-	var products = ['Topas', 
-	                   'Rosemary', 
-	                   'Tegalit', 
-	                   'Double Roman',
-	                   'Frankfurter Pfanne',
-	                   'Mediterraneo',
-	                   'GRANAT',
-	                   'Roof outlets',
-	                   'Aerlox'];
+function getProduct(entities) {
+    var data_products = "";
+    var arrProducts = ['Topas', 
+	               'Rosemary', 
+	               'Tegalit', 
+	               'Double Roman',
+	               'Frankfurter Pfanne',
+	               'Mediterraneo',
+	               'GRANAT',
+	               'Roof outlets',
+	               'Aerlox'];
 	
-	if (null != keyword) {
-		for(var i = 0; i<products.length; i++) {
-			if (keyword.trim().toUpperCase() === products[i].toUpperCase()) {
-				return true;
-			}
-		}
-	}
-	return false;
+    for(var i = 0; i<arrProducts.length; i++) {
+    	if (entities.toUpperCase().includes(arrProducts[i].toUpperCase())) {
+    		data_products += '<p>' + arrProducts[i] + '</p>';
+    	}
+    }
+	
+    return data_products;
 }
 
-function isAgency(keyword) {
-	var agencies = ['ABG Roofings', 
-	                   'Clauss', 
-	                   'Edward', 
-	                   'Comwrap',
-	                   'Neumann',
-	                   'BERNHARDT'];
+function getAgency(entities) {
+    var data_agencies = "";
+    var arrAgencies = ['ABG Roofings', 
+	               'Clauss', 
+	               'Edward', 
+	               'Comwrap',
+	               'Neumann',
+	               'BERNHARDT'];
 	
-	if (null != keyword) {
-		for(var i = 0; i<agencies.length; i++) {
-			if (keyword.trim().toUpperCase() === agencies[i].toUpperCase()) {
-				return true;
-			}
-		}
-	}
-	return false;
+    for(var i = 0; i<arrAgencies.length; i++) {
+    	if (entities.toUpperCase().includes(arrAgencies[i].toUpperCase())) {
+    		data_agencies += '<p>' + arrAgencies[i] + '</p>';
+    	}
+    }
+	
+    return data_agencies;
 }
 
-function isSpeciality(keyword) {
-	var specialities = ['Roofing', 
-	                       'Chimney', 
-	                       'Fittings', 
-	                       'Insulation'];
+function getSpeciality(entities) {
+    var data_specialities = "";
+    var arrSpecialities = ['Roofing', 
+	                   'Chimney', 
+	                   'Fittings', 
+	                   'Insulation'];
 	
-	if (null != keyword) {
-		for(var i = 0; i<specialities.length; i++) {
-			if (keyword.trim().toUpperCase() === specialities[i].toUpperCase()) {
-				return true;
-			}
-		}
-	}
-	return false;
+    for(var i = 0; i<arrSpecialities.length; i++) {
+    	if (entities.toUpperCase().includes(arrSpecialities[i].toUpperCase())) {
+    		data_specialities += '<p>' + arrSpecialities[i] + '</p>';
+    	}
+    }
+	
+    return data_specialities;
 }
 
 
@@ -177,8 +177,8 @@ if (!('webkitSpeechRecognition' in window)) {
         recognizing = true;
         showInfo('info_speak_now');
         start_img.src = '/images/mic-animate.gif';
-        document.getElementById('sentiment-output').innerHTML = '';
-        document.getElementById('emotion-output').innerHTML = '';
+        //document.getElementById('sentiment-output').innerHTML = '';
+        //document.getElementById('emotion-output').innerHTML = '';
         document.getElementById('image-placeholder').innerHTML = '';
         keywordsReceived = [];
         transcript_has_aerlox = false;
@@ -275,8 +275,8 @@ if (!('webkitSpeechRecognition' in window)) {
 
         // TODO: Refactor a lot!
         var output = document.querySelector('#final_span').innerHTML;
-        var sentiment = document.querySelector('#sentiment-output');
-        var emotion = document.querySelector('#emotion-output');
+        //var sentiment = document.querySelector('#sentiment-output');
+        //var emotion = document.querySelector('#emotion-output');
         var keywords = document.querySelector('#keywords-output');
         var cities = document.querySelector('#cities-output');
         var competitors = document.querySelector('#competitors-output'); 
@@ -284,14 +284,14 @@ if (!('webkitSpeechRecognition' in window)) {
         var agencies = document.querySelector('#agencies-output');
         var specialities = document.querySelector('#specialities-output');
         
-        sentiment.innerHTML = "";
-        emotion.innerHTML = "";
+        //sentiment.innerHTML = "";
+        //emotion.innerHTML = "";
         keywords.innerHTML = "";
         cities.innerHTML = "";
-        competitors.innerHTML = "";
-        products.innerHTML = "";
-        agencies.innerHTML = "";
-        specialities.innerHTML = "";
+        competitors.innerHTML = getCompetitor(final_transcript);
+        products.innerHTML = getProduct(final_transcript);
+        agencies.innerHTML = getAgency(final_transcript);
+        specialities.innerHTML = getSpeciality(final_transcript);
 
         
         var alchemy_data = {data: output};
@@ -299,45 +299,25 @@ if (!('webkitSpeechRecognition' in window)) {
             jQuery.post('/api/alchemy', alchemy_data)
                 .done(function(data) {
                     console.log(data);
-                    var data_sentiment = data.docSentiment.type;
+                    //var data_sentiment = data.docSentiment.type;
                     get_keywords(data.keywords);
 
                     
-                    sentiment.innerHTML = data_sentiment;
-                    var data_emotions = "";
-                    for (var key in data.docEmotions) {
-                        data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
-                    }
-                    emotion.innerHTML = data_emotions;
+                    //sentiment.innerHTML = data_sentiment;
+                    //var data_emotions = "";
+                    //for (var key in data.docEmotions) {
+                    //    data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
+                    //}
+                    //emotion.innerHTML = data_emotions;
 
                     var data_keywords = "";
-                    var data_competitors = "";
-                    var data_products = "";
-                    var data_agencies = "";
-                    var data_specialities = "";
 
-                     for(var i = 0; i < data.keywords.length; i++) {
-                         var o = data.keywords[i];  // An obj with 'text' and'relevance'
-                         // These should be `ul>li` but that will require css. 
-                         if (isCompetitor(o.text)) {
-                             data_competitors += '<p>' + o.text + '</p>';
-                         } else if (isProduct(o.text)) {
-                             data_products += '<p>' + o.text + '</p>';
-                         } else if (isAgency(o.text)) {
-                             data_agencies += '<p>' + o.text + '</p>';
-                         } else if (isSpeciality(o.text)) {
-                             data_specialities += '<p>' + o.text + '</p>';
-                         } else {
-                             data_keywords += '<p>' + o.text + '</p>';
-                         }
-                     }
-                        keywords.innerHTML = data_keywords;
-                        competitors.innerHTML = data_competitors;
-                        products.innerHTML = data_products;
-                        agencies.innerHTML = data_agencies;
-                        specialities.innerHTML = data_specialities;
+                    for(var i = 0; i < data.keywords.length; i++) {
+                        var o = data.keywords[i];  // An obj with 'text' and'relevance'
+                        // These should be `ul>li` but that will require css. 
+                        data_keywords += '<p>' + o.text + '</p>';
+                    }
 
-                    
                     keywords.innerHTML = data_keywords;
                     
                     cities.innerHTML = "";
