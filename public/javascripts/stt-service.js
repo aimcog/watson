@@ -177,8 +177,8 @@ if (!('webkitSpeechRecognition' in window)) {
         recognizing = true;
         showInfo('info_speak_now');
         start_img.src = '/images/mic-animate.gif';
-        document.getElementById('sentiment-output').innerHTML = '';
-        document.getElementById('emotion-output').innerHTML = '';
+        //document.getElementById('sentiment-output').innerHTML = '';
+        //document.getElementById('emotion-output').innerHTML = '';
         document.getElementById('image-placeholder').innerHTML = '';
         keywordsReceived = [];
         transcript_has_aerlox = false;
@@ -275,8 +275,8 @@ if (!('webkitSpeechRecognition' in window)) {
 
         // TODO: Refactor a lot!
         var output = document.querySelector('#final_span').innerHTML;
-        var sentiment = document.querySelector('#sentiment-output');
-        var emotion = document.querySelector('#emotion-output');
+        //var sentiment = document.querySelector('#sentiment-output');
+        //var emotion = document.querySelector('#emotion-output');
         var keywords = document.querySelector('#keywords-output');
         var cities = document.querySelector('#cities-output');
         var competitors = document.querySelector('#competitors-output'); 
@@ -284,8 +284,8 @@ if (!('webkitSpeechRecognition' in window)) {
         var agencies = document.querySelector('#agencies-output');
         var specialities = document.querySelector('#specialities-output');
         
-        sentiment.innerHTML = "";
-        emotion.innerHTML = "";
+        //sentiment.innerHTML = "";
+        //emotion.innerHTML = "";
         keywords.innerHTML = "";
         cities.innerHTML = "";
         competitors.innerHTML = getCompetitor(final_transcript);
@@ -299,16 +299,16 @@ if (!('webkitSpeechRecognition' in window)) {
             jQuery.post('/api/alchemy', alchemy_data)
                 .done(function(data) {
                     console.log(data);
-                    var data_sentiment = data.docSentiment.type;
+                    //var data_sentiment = data.docSentiment.type;
                     get_keywords(data.keywords);
 
                     
-                    sentiment.innerHTML = data_sentiment;
-                    var data_emotions = "";
-                    for (var key in data.docEmotions) {
-                        data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
-                    }
-                    emotion.innerHTML = data_emotions;
+                    //sentiment.innerHTML = data_sentiment;
+                    //var data_emotions = "";
+                    //for (var key in data.docEmotions) {
+                    //    data_emotions += '<p>' + key + ': ' + data.docEmotions[key] + '<p>';
+                    //}
+                    //emotion.innerHTML = data_emotions;
 
                     var data_keywords = "";
 
