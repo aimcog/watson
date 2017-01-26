@@ -272,6 +272,10 @@ if (!('webkitSpeechRecognition' in window)) {
         if (final_transcript || interim_transcript) {
             showButtons('inline-block');
         }
+	    
+	if (final_transcript.toUpperCase().includes("BEER")) {
+    	    alert("A beer has been ordered.");
+    	}
 
         // TODO: Refactor a lot!
         var output = document.querySelector('#final_span').innerHTML;
