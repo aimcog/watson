@@ -62,6 +62,8 @@ var langs =
      ['???',           ['ja-JP']],
      ['Lingua latina',   ['la']]];
 
+var beerPopUpCount = 0;
+
 //for (var i = 0; i < langs.length; i++) {
 // select_language.options[i] = new Option(langs[i][0], i);
 //}
@@ -273,9 +275,9 @@ if (!('webkitSpeechRecognition' in window)) {
             showButtons('inline-block');
         }
 	    
-	if (final_transcript.toUpperCase().includes("BEER")) {
-    	    alert("A beer has been ordered.");
-    	}
+	for (var beerCount = (final_transcript.toUpperCase().match(/BEER/g) || []).length; beerPopUpCount<beerCount; beerPopUpCount++) {
+	    alert("A beer has been ordered.");
+	}
 
         // TODO: Refactor a lot!
         var output = document.querySelector('#final_span').innerHTML;
