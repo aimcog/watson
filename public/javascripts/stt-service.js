@@ -235,13 +235,13 @@ if (!('webkitSpeechRecognition' in window)) {
         var interim_transcript = '';
 
         // TODO: Refactor into a collection and iterate over.
-        var re_braas = /(brass)/,
-            re_monier = /(money)/,
-            re_aerlox = /(hair locks)|(air rocks)|(unlocks)|(he locks)/,
-            re_koramic = /ceramic/,
-            re_miller = /millers/,
-            re_topas_tiles = /to pass time/,
-            re_topas = /(to pass)|(topaz)/;
+        var re_braas = /((b|g)rass)|(blast)/i,
+            re_tiles = /(times?)|(tights)/i,
+            re_monier = /(money)|(mannian)|(mania)/i,
+            re_aerlox = /(\w+)? ((l|r)ocks)/i, // Any word followed by locks/rocks
+            re_koramic = /(ceramic)|(cormac)|(core mx)/i,
+            re_miller = /millers/i,
+            re_topas = /(to pass)|(topaz)/i;
         
         for (var i = event.resultIndex; i < event.results.length; ++i) {
             if (event.results[i].isFinal) {
@@ -258,7 +258,7 @@ if (!('webkitSpeechRecognition' in window)) {
             .replace(re_koramic, 'koramic')
             .replace(re_miller, 'miller')
             .replace(re_topas, 'topas')
-            .replace(re_topas_tiles, 'topaz tiles');
+            .replace(re_tiles, 'tiles');
         
         
         // There's this high chance that STT is not going to recognize
